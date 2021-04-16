@@ -2,6 +2,7 @@ package main
 
 import (
 	"bufio"
+	"flag"
 	"fmt"
 	"log"
 	"os"
@@ -9,8 +10,13 @@ import (
 )
 
 func main() {
+	path := flag.String("path", "myapp.log", "The path to the log that should be analyzed")
+	level := flag.String("level", "ERROR", "Log level to search for. Options are DEBUG, INFO, ERROR and CRITICAL")
+
+	flag.Parse()
+
 	// Procurando e armazenando o buffer do arquivo em nossa memória
-	file, err := os.Open("myapp.log")
+	file, err := os.Open(*path)
 
 	// err me retorna um string
 	// exemplo: '2021/04/16 10:52:52 open myapsp.log: no such file or directory'
@@ -36,7 +42,7 @@ func main() {
 		}
 
 		// Com o pacote strings, verifica se existe a palavra ERROR e se sim printa para o usuário
-		if strings.Contains(string, "ERROR") {
+		if strings.Contains(string, *level) {
 			fmt.Println(string)
 		}
 	}
